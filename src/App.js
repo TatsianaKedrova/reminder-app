@@ -1,6 +1,30 @@
 import './App.css';
+import {useEffect, useState} from "react";
+import {instance} from "./axios";
+
 
 function App() {
+
+    const[reminders, setReminders] = useState([]);
+
+    console.log("Reminders: ", reminders);
+
+    const getReminders = async () => {
+        const response = await instance
+            .get("/reminders")
+            .catch((err) => console.log("Error: ", err));
+
+        console.log("Response: ", response);
+
+        if(response && response.data) {
+            setReminders(response.data);
+        }
+    }
+
+    useEffect(() => {
+        getReminders();
+    }, []);
+
     return (
         <div className="App">
             <h2>Reminders</h2>
